@@ -1,0 +1,13 @@
+#gameBoard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 500px;
+    height: 400px;
+    background-color: aqua;
+}
+
+.square {
+
+    border: 1px solid black;
+    
+}
