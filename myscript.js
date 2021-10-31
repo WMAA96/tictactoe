@@ -1,10 +1,6 @@
 
 const gameBoard = (() => {
-    const board = [
-        "", "", "",
-        "", "", "",
-        "", "", "",
-    ];
+    const board = Array(9);
 
     const createBoard = () => {
         const turn = document.getElementById("turnCheck")
