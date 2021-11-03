@@ -2,6 +2,17 @@
 const gameBoard = (() => {
     const board = Array(9);
 
+    const winConditions =[
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
     const createBoard = () => {
         const turn = document.getElementById("turnCheck")
         turn.textContent = "Player 1 turn";
@@ -15,11 +26,11 @@ const gameBoard = (() => {
 
         }
 
-        return {createBoard};
+        
     }
 
     console.log(board);
-    return {board, createBoard};
+    return {board, winConditions, createBoard};
 })();
 
 
@@ -36,6 +47,7 @@ const player2 = playerFactory("Player2","O");
 
 const gameFlow = (() => {
     gameBoard.createBoard();
+
 
     const turn = () => {
         const turn = document.getElementById("turnCheck")
@@ -54,15 +66,43 @@ const gameFlow = (() => {
         if (turn() === true) {
             e.target.textContent = player1.getTeam(); 
             gameBoard.board[(e.target.getAttribute("index"))] = player1.getTeam();
+            gameStatus();
 
         } else {
-            console.log(e.target);
-            console.log(gameBoard.board);
             e.target.textContent = player2.getTeam(); 
             gameBoard.board[(e.target.getAttribute("index"))] = player2.getTeam();
+            gameStatus();
             
         }
     }
+
+    const gameStatus = () => {
+
+        for(let i = 0; i< gameBoard.winConditions.length; i++) {
+            let w = gameBoard.winConditions[i];
+            let sum = 0;
+            
+            for(let j = 0; j< w.length; j++) {
+                let a = ([w]);
+                let b = ([j]);
+                let wtf = ([w[j]]);
+                if(gameBoard.board[w[j]] === player1.getTeam()) {
+                    sum++
+                    console.log("sigh");
+                }
+                if(sum === 3) {
+                    console.log("gameover?");
+                }
+            }
+            
+            
+  
+        }
+    }
+        
+ 
+
+    
 
     document.querySelectorAll(".square").forEach(square => {
         square.addEventListener("click", makeMove, {once: true});
