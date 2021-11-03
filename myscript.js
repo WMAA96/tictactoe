@@ -47,6 +47,7 @@ const player2 = playerFactory("Player2","O");
 
 const gameFlow = (() => {
     gameBoard.createBoard();
+    let rounds = 0;
 
 
     const turn = () => {
@@ -63,41 +64,44 @@ const gameFlow = (() => {
     }
 
     const makeMove = (e) => {  
+        
         if (turn() === true) {
             e.target.textContent = player1.getTeam(); 
             gameBoard.board[(e.target.getAttribute("index"))] = player1.getTeam();
-            gameStatus();
+            gameStatus(player1.getTeam());
 
         } else {
             e.target.textContent = player2.getTeam(); 
             gameBoard.board[(e.target.getAttribute("index"))] = player2.getTeam();
-            gameStatus();
+            gameStatus(player2.getTeam());
             
         }
     }
 
-    const gameStatus = () => {
+    const gameStatus = (team) => {
+        rounds++;
+
+        if(rounds >= 9) {   
+            console.log("Tie");  return; 
+        }
 
         for(let i = 0; i< gameBoard.winConditions.length; i++) {
             let w = gameBoard.winConditions[i];
             let sum = 0;
             
             for(let j = 0; j< w.length; j++) {
-                let a = ([w]);
-                let b = ([j]);
-                let wtf = ([w[j]]);
-                if(gameBoard.board[w[j]] === player1.getTeam()) {
-                    sum++
-                    console.log("sigh");
+            // Index j of first Array in win cons
+                if(gameBoard.board[w[j]] === team) {
+                    sum++        
                 }
-                if(sum === 3) {
-                    console.log("gameover?");
+                if(sum === 3) {  
+                    console.log(team + " has won");  
                 }
             }
-            
-            
-  
+
         }
+
+
     }
         
  
@@ -111,6 +115,8 @@ const gameFlow = (() => {
 
         
 })();
+
+rounds++;
 
 
 
