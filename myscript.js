@@ -36,8 +36,8 @@ const gameBoard = (() => {
             
         }
     }
-
-    return {board, winConditions, createBoard, reset};
+    createBoard();
+    return {board, winConditions, reset};
 })();
 
 
@@ -53,7 +53,7 @@ const player2 = playerFactory("Player2","O");
 
 
 const gameFlow = (() => {
-    gameBoard.createBoard();
+    
     let rounds = 0;
     const state = document.getElementById("turnCheck")
     const restartButton = document.getElementById("restartBtn");
@@ -85,6 +85,10 @@ const gameFlow = (() => {
             
         }
     }
+
+    document.querySelectorAll(".square").forEach(square => {
+        square.addEventListener("click", makeMove, {once: true});
+    })
 
     const gameStatus = (team) => {
         rounds++;
@@ -125,6 +129,7 @@ const gameFlow = (() => {
 
     restartButton.addEventListener("click", (e) => {
         gameBoard.reset();
+        state.textContent = "Player 1 turn"
         rounds = 0;
         
         document.querySelectorAll(".square").forEach(square => {
@@ -133,9 +138,7 @@ const gameFlow = (() => {
         
     })
 
-    document.querySelectorAll(".square").forEach(square => {
-        square.addEventListener("click", makeMove, {once: true});
-    })
+
 
 })();
 

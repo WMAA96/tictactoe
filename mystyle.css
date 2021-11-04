@@ -1,13 +1,21 @@
 #gameBoard {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    width: 500px;
-    height: 400px;
+    width: 600px;
+    height: 600px;
+    border: 2px solid black;
     background-color: aqua;
+    
+    
 }
 
 .square {
-
+    width: 200px;
+    height: 200px;
     border: 1px solid black;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 70px;
+    font-size: 250%;
     
 }
