@@ -25,12 +25,19 @@ const gameBoard = (() => {
             currentBoard.appendChild(square).className = "square";
 
         }
-
-        
     }
 
-    console.log(board);
-    return {board, winConditions, createBoard};
+    const reset = () => {
+        
+        for(let i = 0; i< board.length; i++) {
+            let square = document.getElementsByClassName("square");
+            square[i].textContent = "";
+            gameBoard.board[i] = "";
+            
+        }
+    }
+
+    return {board, winConditions, createBoard, reset};
 })();
 
 
@@ -48,15 +55,16 @@ const player2 = playerFactory("Player2","O");
 const gameFlow = (() => {
     gameBoard.createBoard();
     let rounds = 0;
-
+    const state = document.getElementById("turnCheck")
+    const restartButton = document.getElementById("restartBtn");
 
     const turn = () => {
-        const turn = document.getElementById("turnCheck")
-        if(turn.textContent === "Player 1 turn") {
-            turn.textContent = "Player 2 turn"
+        
+        if(state.textContent === "Player 1 turn") {
+            state.textContent = "Player 2 turn"
             return true;
         } else {
-            turn.textContent = "Player 1 turn";
+            state.textContent = "Player 1 turn";
             return false;
         }
     
@@ -81,8 +89,9 @@ const gameFlow = (() => {
     const gameStatus = (team) => {
         rounds++;
 
-        if(rounds >= 9) {   
-            console.log("Tie");  return; 
+        if(rounds >= 9) {             
+            state.textContent = "Game has ended in a tie";
+            gameEnded();  
         }
 
         for(let i = 0; i< gameBoard.winConditions.length; i++) {
@@ -95,7 +104,9 @@ const gameFlow = (() => {
                     sum++        
                 }
                 if(sum === 3) {  
-                    console.log(team + " has won");  
+                    state.textContent = (team + " has won");
+                    gameEnded();  
+                    
                 }
             }
 
@@ -103,20 +114,32 @@ const gameFlow = (() => {
 
 
     }
-        
+
+    const gameEnded = () => {
+        document.querySelectorAll(".square").forEach(square => {
+            square.removeEventListener("click", makeMove);
+        })
+
+    }
  
 
-    
+    restartButton.addEventListener("click", (e) => {
+        gameBoard.reset();
+        rounds = 0;
+        
+        document.querySelectorAll(".square").forEach(square => {
+            square.addEventListener("click", makeMove, {once: true});
+        })
+        
+    })
 
     document.querySelectorAll(".square").forEach(square => {
         square.addEventListener("click", makeMove, {once: true});
     })
 
-
-        
 })();
 
-rounds++;
+
 
 
 
